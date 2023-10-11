@@ -1,0 +1,114 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:7.2.2"
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (plugins.hasPlugin('maven-publish')) {
+            if (plugins.hasPlugin('com.android.library')) {
+                android {
+                    publishing {
+                        singleVariant("release") {
+                            withSourcesJar()
+                            withJavadocJar()
+                        }
+                    }
+                }
+            }
+
+            if (project.parent == rootProject) {
+                group = "${groupIdBase}"
+            } else {
+                group = "${groupIdBase}.${project.parent.name}"
+            }
+            version = android.defaultConfig.versionName
+            println("${project.displayName}: ${group}:${project.name}:${version}")
+
+            publishing {
+                publications {
+                    mavenJava(MavenPublication) {
+                        group project.group
+                        artifactId project.name
+                        version android.defaultConfig.versionName
+                        afterEvaluate {
+                            from components.release
+                        }
+                        pom {
+                            name = POM_NAME
+                            description = POM_DESCRIPTION
+                            url = POM_URL
+                            licenses {
+                                license {
+                                    name =POM_LICENCE_NAME
+                                    url = POM_LICENCE_URL
+                                }
+                            }
+                            developers {
+                                developer {
+                                    name = POM_DEVELOPER_NAME
+                                    url = POM_DEVELOPER_URL
+                                }
+                            }
+                            scm {
+                                connection = POM_SCM_CONNECTION
+                                url = POM_SCM_URL
+                            }
+                        }
+                    }
+                }
+                repositories {
+                    maven {
+                        name 'ossrh'
+                        url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+                        credentials(PasswordCredentials)
+                    }
+                }
+            }
+
+            signing {
+                sign publishing.publications
+                useGpgCmd()
+            }
+        }
+    }
+}
+
+ext {
+    groupIdBase = "numan.dev"
+
+    POM_INCEPTION_YEAR = "2021"
+    POM_PACKAGING = "aar"
+
+    POM_URL = "https://github.com/numandev1/flatbuffers-prefab"
+    POM_SCM_URL = "https://github.com/numandev1/flatbuffers-prefab"
+    POM_SCM_CONNECTION = "scm:git@github.com:numandev1/flatbuffers-prefab.git"
+    POM_SCM_DEV_CONNECTION = "scm:git@github.com:numandev1/flatbuffers-prefab.git"
+
+    POM_LICENCE_NAME = "Apache License 2.0"
+    POM_LICENCE_URL = "https://github.com/google/flatbuffers/blob/master/LICENSE.txt"
+    POM_LICENCE_DIST = "repo"
+
+    POM_DEVELOPER_ID = "numan"
+    POM_DEVELOPER_NAME = "Numan"
+    POM_DEVELOPER_URL = "https://github.com/numandev1"
+}

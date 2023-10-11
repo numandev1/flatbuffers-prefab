@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'signing'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'numan.dev'
+            artifactId = 'flatbuffers'
+            version = "1.0.0"
+
+            pom {
+                description = 'A description of my library'
+            }
+        }
+    }
+}
+
+android {
+    compileSdkVersion 33
+    buildToolsVersion "30.0.3"
+    ndkVersion "24.0.8215888"
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 33
+        versionCode 1
+        versionName "2.0.8"
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_STL=none"
+            }
+        }
+    }
+    buildFeatures {
+        androidResources false
+        prefabPublishing true
+        buildConfig false
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+    prefab {
+        flatbuffers {
+            headers "src/main/cpp/include"
+            headerOnly true
+        }
+    }
+}
+
+ext {
+    POM_NAME = "FlatBuffers Prefab"
+    POM_DESCRIPTION = "Prefab version of FlatBuffers."
+}
