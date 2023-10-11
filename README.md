@@ -1,6 +1,6 @@
 # FlatBuffers Prefab
 
-![Maven Central](https://img.shields.io/maven-central/v/numan.dev/flatbuffers)
+#### Version: v23.5.26
 
 Prefab package for FlatBuffers (https://github.com/google/flatbuffers).
 
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.numandev1:flatbuffers-prefab:-SNAPSHOT'
+    implementation 'com.github.numandev1:flatbuffers-prefab:e21748fc02'
 }
 ```
 
