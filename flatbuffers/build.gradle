@@ -1,8 +1,5 @@
-plugins {
-    id 'com.android.library'
-    id 'maven-publish'
-    id 'signing'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 publishing {
     publications {
@@ -16,6 +13,20 @@ publishing {
             }
         }
     }
+}
+
+ext {
+    libVersion = '1.0.0'
+    libGroup = 'numan.dev'
+    libName = 'flatbuffers-prefab'
+    libDescription = 'A description of my library'
+    libArtifactId = 'flatbuffers'
+    githubUrl = "https://github.com/numandev1/${libName}"
+    githubGit = "https://github.com/numandev1/${libName}.git"
+    libLicenseName = 'MIT License'
+    libLicenseUrl = 'http://www.opensource.org/licenses/mit-license.php'
+    POM_NAME = "FlatBuffers Prefab"
+    POM_DESCRIPTION = "Prefab version of FlatBuffers."
 }
 
 android {
@@ -41,7 +52,7 @@ android {
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
+            version "3.18.1"
         }
     }
     prefab {
@@ -50,9 +61,4 @@ android {
             headerOnly true
         }
     }
-}
-
-ext {
-    POM_NAME = "FlatBuffers Prefab"
-    POM_DESCRIPTION = "Prefab version of FlatBuffers."
 }

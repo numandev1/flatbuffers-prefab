@@ -44,51 +44,7 @@ subprojects {
             version = android.defaultConfig.versionName
             println("${project.displayName}: ${group}:${project.name}:${version}")
 
-            publishing {
-                publications {
-                    mavenJava(MavenPublication) {
-                        group project.group
-                        artifactId project.name
-                        version android.defaultConfig.versionName
-                        afterEvaluate {
-                            from components.release
-                        }
-                        pom {
-                            name = POM_NAME
-                            description = POM_DESCRIPTION
-                            url = POM_URL
-                            licenses {
-                                license {
-                                    name =POM_LICENCE_NAME
-                                    url = POM_LICENCE_URL
-                                }
-                            }
-                            developers {
-                                developer {
-                                    name = POM_DEVELOPER_NAME
-                                    url = POM_DEVELOPER_URL
-                                }
-                            }
-                            scm {
-                                connection = POM_SCM_CONNECTION
-                                url = POM_SCM_URL
-                            }
-                        }
-                    }
-                }
-                repositories {
-                    maven {
-                        name 'ossrh'
-                        url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-                        credentials(PasswordCredentials)
-                    }
-                }
-            }
 
-            signing {
-                sign publishing.publications
-                useGpgCmd()
-            }
         }
     }
 }

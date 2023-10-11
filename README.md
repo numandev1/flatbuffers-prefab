@@ -25,10 +25,11 @@ Add dependency:
 ```gradle
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'numan.dev:flatbuffers:<version>'
+    implementation 'com.github.numandev1:flatbuffers-prefab:-SNAPSHOT'
 }
 ```
 
